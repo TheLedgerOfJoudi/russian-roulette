@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/russian-roulette/static/css/main.a617e044.chunk.css",
+    "main.js": "/russian-roulette/static/js/main.5ed169ec.chunk.js",
+    "main.js.map": "/russian-roulette/static/js/main.5ed169ec.chunk.js.map",
+    "runtime-main.js": "/russian-roulette/static/js/runtime-main.5626e4e0.js",
+    "runtime-main.js.map": "/russian-roulette/static/js/runtime-main.5626e4e0.js.map",
+    "static/js/2.0cef9a39.chunk.js": "/russian-roulette/static/js/2.0cef9a39.chunk.js",
+    "static/js/2.0cef9a39.chunk.js.map": "/russian-roulette/static/js/2.0cef9a39.chunk.js.map",
+    "static/js/3.a22f5909.chunk.js": "/russian-roulette/static/js/3.a22f5909.chunk.js",
+    "static/js/3.a22f5909.chunk.js.map": "/russian-roulette/static/js/3.a22f5909.chunk.js.map",
+    "index.html": "/russian-roulette/index.html",
+    "static/css/main.a617e044.chunk.css.map": "/russian-roulette/static/css/main.a617e044.chunk.css.map",
+    "static/js/2.0cef9a39.chunk.js.LICENSE.txt": "/russian-roulette/static/js/2.0cef9a39.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.5626e4e0.js",
+    "static/js/2.0cef9a39.chunk.js",
+    "static/css/main.a617e044.chunk.css",
+    "static/js/main.5ed169ec.chunk.js"
+  ]
+}
