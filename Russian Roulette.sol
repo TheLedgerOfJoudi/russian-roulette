@@ -7,11 +7,12 @@ contract RussianRoulette {
     uint turn = 0;
     uint nonce = 0;
     uint killed = 0;
+    bool finished = false;
+    
     constructor () {
-        turn = uint(keccak256(abi.encodePacked(block.difficulty, block.timestamp, players, block.number))) % 2;
-        killed = uint(keccak256(abi.encodePacked(block.difficulty, block.timestamp, players, block.number))) % 6;
+        turn = uint(keccak256(abi.encodePacked(nonce,block.difficulty, block.timestamp, players, block.number))) % 2;
         nonce = turn;
-        
+        killed = uint(keccak256(abi.encodePacked(block.difficulty, block.timestamp, players, block.number,nonce))) % 4;
     }
     
     function register() public payable {
@@ -21,24 +22,33 @@ contract RussianRoulette {
         index++;
     }
     
-    event CheekiBreekiVDamke (address loser);
+    event GameOver (address loser);
     modifier isSenderTurn () {
         require(msg.sender == players[turn]);
         _;
     }
     
     function shoot() public isSenderTurn{
-        
+        if(!finished){
         nonce++;
-        uint shot = uint(keccak256(abi.encodePacked(nonce, block.difficulty, block.timestamp, players, block.number))) % 6;
+        uint shot = uint(keccak256(abi.encodePacked(nonce, block.difficulty, block.timestamp, players, block.number))) % 4;
         if (shot == killed) {
-            emit CheekiBreekiVDamke(players[turn]);
+            emit GameOver(players[turn]);
             players[ (turn + 1) % 2].transfer(address(this).balance);
             players[0] = players [1] = address(0);
-            index = 0;            
+            index = 0;
+            finished = true;
         }
-        
         turn = (turn + 1) % 2;
+        }
+    }
+    
+    function getTurn () public view returns (uint) {
+        return turn;
+    }
+    
+    function isFinished () public view returns (bool) {
+        return finished;
     }
 }
 
