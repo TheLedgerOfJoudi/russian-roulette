@@ -3,7 +3,7 @@ pragma solidity  >=0.4.22 <0.8.0;
 contract RussianRoulette {
     
     address payable [2] players;
-    uint index = 0;
+    uint8 index = 0;
     uint turn = 0;
     uint nonce = 0;
     uint killed = 0;
