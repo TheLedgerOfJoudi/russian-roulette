@@ -20,6 +20,9 @@ contract RussianRoulette {
         require (msg.value >= 0.5 ether);
         players[index] = msg.sender;
         index++;
+        if(index == 2){
+            finished = false;
+        }
     }
     
     event GameOver (address loser);
@@ -28,7 +31,11 @@ contract RussianRoulette {
         _;
     }
     
-    function shoot() public isSenderTurn{
+    modifier gameNotFinished(){
+        require(finished == false);
+        _;
+    }
+    function shoot() public gameNotFinished isSenderTurn{
         if(!finished){
         nonce++;
         uint shot = uint(keccak256(abi.encodePacked(nonce, block.difficulty, block.timestamp, players, block.number))) % 4;
@@ -43,8 +50,8 @@ contract RussianRoulette {
         }
     }
     
-    function getTurn () public view returns (uint) {
-        return turn;
+    function getTurn () public view returns (address) {
+        return players[turn];
     }
     
     function isFinished () public view returns (bool) {
