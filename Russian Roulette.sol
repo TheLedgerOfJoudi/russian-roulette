@@ -12,7 +12,7 @@ contract RussianRoulette {
     constructor () {
         turn = uint(keccak256(abi.encodePacked(nonce,block.difficulty, block.timestamp, players, block.number))) % 2;
         nonce = turn;
-        killed = uint(keccak256(abi.encodePacked(block.difficulty, block.timestamp, players, block.number,nonce))) % 4;
+        killed = uint(keccak256(abi.encodePacked(block.difficulty, block.timestamp, players, block.number,nonce))) % 2;
     }
     
     function register() public payable {
@@ -35,10 +35,11 @@ contract RussianRoulette {
         require(finished == false);
         _;
     }
+    
     function shoot() public gameNotFinished isSenderTurn{
         if(!finished){
         nonce++;
-        uint shot = uint(keccak256(abi.encodePacked(nonce, block.difficulty, block.timestamp, players, block.number))) % 4;
+        uint shot = uint(keccak256(abi.encodePacked(nonce, block.difficulty, block.timestamp, players, block.number))) % 2;
         if (shot == killed) {
             emit GameOver(players[turn]);
             players[ (turn + 1) % 2].transfer(address(this).balance);
