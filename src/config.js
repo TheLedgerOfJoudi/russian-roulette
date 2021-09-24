@@ -1,5 +1,5 @@
-export const ADDRESS = "0x96d5aFbCD5b26504cBd2fd7B44fC0F87760F0A49"
-export const ABI =[
+export const ADDRESS = "0x9f42ce3053450F34fa51a8f4fB7D0E403368390a"
+export const ABI = [
 	{
 		"inputs": [],
 		"stateMutability": "nonpayable",
