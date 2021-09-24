@@ -1,3 +1,4 @@
+//SPDX-License-Identifier: MIT
 pragma solidity  >=0.4.22 <0.8.0; 
 
 contract RussianRoulette {
@@ -5,15 +6,22 @@ contract RussianRoulette {
     address payable [2] players;
     uint8 index = 0;
     uint turn = 0;
-    uint nonce = 0;
     uint killed = 0;
     bool finished = false;
-    
+
     constructor () {
-        turn = uint(keccak256(abi.encodePacked(nonce,block.difficulty, block.timestamp, players, block.number))) % 2;
-        nonce = turn;
-        killed = uint(keccak256(abi.encodePacked(block.difficulty, block.timestamp, players, block.number,nonce))) % 2;
-    }
+        turn = uint(keccak256(abi.encodePacked(
+        block.difficulty,
+        block.timestamp,
+        block.number,
+        players))) % 2;
+        
+        killed = uint(keccak256(abi.encodePacked(
+            players,
+            block.difficulty,
+            block.timestamp,
+            block.number))) % 2;
+        }
     
     function register() public payable {
         require (index < 2);
@@ -26,6 +34,7 @@ contract RussianRoulette {
     }
     
     event GameOver (address loser);
+    
     modifier isSenderTurn () {
         require(msg.sender == players[turn]);
         _;
@@ -37,19 +46,20 @@ contract RussianRoulette {
     }
     
     function shoot() public gameNotFinished isSenderTurn{
-        if(!finished){
-        nonce++;
-        uint shot = uint(keccak256(abi.encodePacked(nonce, block.difficulty, block.timestamp, players, block.number))) % 2;
+        uint shot = uint(keccak256(abi.encodePacked(
+            block.difficulty,
+            block.timestamp,
+            players,
+            block.number))) % 2;
         if (shot == killed) {
             emit GameOver(players[turn]);
-            players[ (turn + 1) % 2].transfer(address(this).balance);
+            players[ (turn + 1) % 2].transfer(
+                address(this).balance);
             players[0] = players [1] = address(0);
             index = 0;
-            finished = true;
-        }
+            finished = true;}
         turn = (turn + 1) % 2;
         }
-    }
     
     function getTurn () public view returns (address) {
         return players[turn];
@@ -59,4 +69,3 @@ contract RussianRoulette {
         return finished;
     }
 }
-
